@@ -1,0 +1,32 @@
+###create
+POST http://localhost:3000/employees
+Content-Type: application/json
+
+{
+    "empId": "EMP001",
+    "name": "Jeremy G",
+    "email": "jeremygeafri@graduate.utm.my",
+    "department": "Development",
+    "position": "Junior Developer",
+    "hireDate": "2026-05-16",
+    "salary": 2000,
+    "active": 1
+}
+
+###update
+PUT http://localhost:3000/employees/1
+Content-Type: application/json
+
+{
+    "empId": "EMP001",
+    "name": "Jeremy G(Pura-pura update)",
+    "email": "jeremygeafri@graduate.utm.my",
+    "department": "Software Engineering",
+    "position": "Senior Developer",
+    "hireDate": "2023-05-16",
+    "salary": 2000,
+    "active": 1
+}
+
+###delete
+DELETE http://localhost:3000/employees/1

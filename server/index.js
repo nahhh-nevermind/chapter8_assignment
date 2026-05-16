@@ -15,7 +15,7 @@ app.get('/employees', async(req, res) => {
         const params = []
 
         if(q){
-            sql += `WHERE name LIKE ?
+            sql += ` WHERE name LIKE ?
                         OR  empID LIKE ?
                         OR email LIKE ?
                         OR position LIKE ?`
@@ -26,21 +26,21 @@ app.get('/employees', async(req, res) => {
         const allowedSort = ['name', 'empId', 'hireDate', 'position']
         if(sortBy && allowedSort.includes(sortBy)){
             const direction = order === 'desc' ? 'DESC' : 'ASC'
-            sql += `ORDER BY ${sortBy} ${direction}`
+            sql += ` ORDER BY ${sortBy} ${direction}`
         }
 
         const [rows] = await pool.query(sql, params)
         res.json(rows)
     } catch(err){
-        console.error(err)
-        res.status(500).json({error: 'Database error'})
+        console.error(err);
+        res.status(500).json({error: 'Database error'});
     }
 })
 
 app.get('/employees/:id', async (req, res) => {
     try{
         const [rows] = await pool.query(
-            'SELECT *FROM employees WHERE id = ?', [req.params.id]
+            'SELECT * FROM employees WHERE id = ?', [req.params.id]
         )
         if(!rows.length) return res.status(404).json({error: 'Not Found'})
             res.json(rows[0])
@@ -52,10 +52,10 @@ app.get('/employees/:id', async (req, res) => {
 app.post('/employees', async (req, res) => {
     try{
         const{
-            empId, name, emal, department, position, hireDate, salary, active
+            empId, name, email, department, position, hireDate, salary, active
         } = req.body
         const [r] = await pool.query(
-            `INSERT INTO employees (empId, name, email, department, position, hireDate, salary, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [empId, name, emal, department, position, hireDate, salary, active ? 1:0]
+            `INSERT INTO employees (empId, name, email, department, position, hireDate, salary, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [empId, name, email, department, position, hireDate, salary, active ? 1:0]
         )
         res.status(201).json({id: r.insertId, ...req.body})
     } catch(err){
@@ -72,11 +72,13 @@ app.put('/employees/:id', async (req, res) => {
         const{ empId, name, email, department, position, hireDate, salary, active} = req.body
         const [r] = await pool.query(
             `UPDATE employees SET
-            empId=?, name=?, course=?, faculty=?, gpa=?, email=?, year=?, active=?
-            WHERE id=?`, [empId, name, emal, department, position, hireDate, salary, active ? 1:0, req.params.id]
+            empId=?, name=?, email=?, department=?, position=?, hireDate=?, salary=?, active=?
+            WHERE id=?`, [empId, name, email, department, position, hireDate, salary, active ? 1:0, req.params.id]
         )
         if(!r.affectedRows) return res.status(404).json({error: 'Not found'})
+            res.json({ id: Number(req.params.id), ...req.body})
     } catch(err){
+        console.error(err);
         res.status(500).json({error: 'Database error'})
     }
 })
