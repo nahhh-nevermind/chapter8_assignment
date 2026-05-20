@@ -108,26 +108,26 @@ code {
     padding: 0.15rem 0.5rem;
     border-radius: 999px;
     font-size: 0.75rem;
+}
 
-    .badge.ok {
-        background: #d1fae5;
-        color: #065f46;
-    }
+.badge.ok {
+    background: #d1fae5;
+    color: #065f46;
+}
 
-    .badge.no {
-        background: #fee2e2;
-        color: #991b1b;
-    }
+.badge.no {
+    background: #fee2e2;
+    color: #991b1b;
+}
 
-    .error {
-        background: #fee2e2;
-        color: #991b1b;
-        padding: 0.6rem 1rem;
-        border-radius: 6px;
-    }
+.error {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+}
 
-    .loading {
-        color: #64748b;
-        font-style: italic;
-    }
+.loading {
+    color: #64748b;
+    font-style: italic;
 }

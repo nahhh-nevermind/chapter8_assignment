@@ -10,16 +10,18 @@ const employees = ref([]);
 const editingEmployee = ref(null);
 const loading = ref(false);
 const errorMsg = ref('');
+const searchQuery = ref('');
+const currentSort = ref('name');
 
 async function load(){
     loading.value = true;
     errorMsg.value = '';
 
     try{
-        const{data} = await getEmployees();
+        const{data} = await getEmployees({ q: searchQuery.value, sortBy:currentSort.value});
         employees.value = data;
     } catch (err) {
-        errorMsg.value = 'Failed to load employees. Is the API running on :3000?';
+        errorMsg.value = 'Failed to load employees. Is the API running on :3001?';
     } finally {
         loading.value = false;
     }
@@ -72,6 +74,21 @@ onMounted(load)
         <p v-if="loading" class="loading">Loading...</p>
         <p v-if="errorMsg" class="error">{{ errorMsg }}</p>
 
+        <div class="controls-wrapper">
+            <label>
+                Search:
+                <input v-model.trim="searchQuery" @input="load"/>
+            </label>
+
+            <label>
+                Sort By:
+                <select v-model="currentSort" @change="load">
+                    <option value="name">Name</option>
+                    <option value="empId">Employee ID</option>
+                    <option value="hireDate">Hire Date</option>
+                </select>
+            </label>
+        </div>
         <EmployeeForm
         :editingEmployee="editingEmployee"
         @save="handleSave"

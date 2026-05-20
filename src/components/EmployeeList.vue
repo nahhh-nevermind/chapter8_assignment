@@ -31,7 +31,7 @@ const emit = defineEmits(['edit', 'delete'])
                 <td>{{ e.department }}</td>
                 <td>{{ e.position }}</td>
                 <td>{{ e.hireDate.substring(0, 10) }}</td>
-                <td>RM{{ Number(e.salary).toFixed(2) }}</td>
+                <td>{{ new Intl.NumberFormat("ms-MY", {style: "currency", currency: "MYR"}).format(e.salary)}}</td>
                 <td>
                     <span :class="e.active ? 'badge ok' : 'badge no'">
                         {{ e.active ? 'Active' : 'Inactive' }}

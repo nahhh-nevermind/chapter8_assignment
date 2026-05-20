@@ -28,10 +28,10 @@ function validate() {
     if (!form.value.empId.trim())
         e.empId = 'Employee ID is required.';
     else if (!empIdRegex.test(form.value.empId.trim().toUpperCase()))
-        e.empId = 'Format : EMP001 (First 3 letter must be EMP and 3 digit)';
+        e.empId = 'Format : EMP001 (First 3 letter must be EMP followed by 3-5 digit)';
 
     if (!form.value.name.trim() || form.value.name.trim().length < 3)
-        e.name = 'Name must be at least 3 to 5 characters';
+        e.name = 'Name must be at least 3';
 
     if (!emailRegex.test(form.value.email.trim()))
         e.email = 'Please enter a valid email address.';
