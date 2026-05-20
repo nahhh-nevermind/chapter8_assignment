@@ -43,6 +43,8 @@ function validate() {
         e.position = 'Position is required';
 
     const datetime = new Date();
+    datetime.setHours(0,0,0,0);
+
     if (!form.value.hireDate)
         e.hireDate = 'Hire date is required';
     else if (new Date(form.value.hireDate) > datetime)
@@ -67,7 +69,7 @@ function onSubmit() {
         department: form.value.department,
         position: form.value.position.trim(),
         hireDate: form.value.hireDate,
-        salary: form.value.salary
+        salary: Number(form.value.salary)
     })
     if (!isEditing.value)
         form.value = emptyForm();
@@ -81,8 +83,8 @@ function onCancel() {
 </script>
 
 <template>
-    <form @submit.prevent="onSubmit" class="student-form">
-        <h3>{{ isEditing ? 'Edit Student' : 'Add New Student' }}</h3>
+    <form @submit.prevent="onSubmit" class="employee-form">
+        <h3>{{ isEditing ? 'Edit Employee' : 'Add New Employee' }}</h3>
 
 
         <label>
@@ -107,7 +109,7 @@ function onCancel() {
             Department
             <select v-model="form.department">
                 <option value="">Please Select</option>
-                <option>It</option>
+                <option>IT</option>
                 <option>HR</option>
                 <option>Finance</option>
                 <option>Marketing</option>
@@ -135,7 +137,7 @@ function onCancel() {
         </label>
 
         <label class="check">
-            <input type="checkbox" v-model="form.active" />Active student
+            <input type="checkbox" v-model="form.active" />Active Employee
         </label>
 
         <div class="actions">

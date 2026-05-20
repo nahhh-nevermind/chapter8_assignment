@@ -1,19 +1,20 @@
 <script setup>
 import {ref, onMounted} from 'vue'
-import EmployeesForm from './components/EmployeesForm.vue'
-import EmployeesForm from './components/EmployeesList.vue'
+import EmployeeForm from './components/EmployeeForm.vue'
+import EmployeeList from './components/EmployeeList.vue'
 import{
-getEmployees, createEmployees, updateEmployees, deleteEmployees
-} from './api/employeeApi.js';
+getEmployees, createEmployee, updateEmployee, deleteEmployee
+} from './api/employeesApi.js';
 
 const employees = ref([]);
-const editingEmployees = ref(null);
+const editingEmployee = ref(null);
 const loading = ref(false);
 const errorMsg = ref('');
 
 async function load(){
     loading.value = true;
     errorMsg.value = '';
+
     try{
         const{data} = await getEmployees();
         employees.value = data;
@@ -26,31 +27,32 @@ async function load(){
 
 async function handleSave(payload){
     try{
-        if(editingEmployees.value){
-            await updateEmployees(editingEmployees.value.id, payload);
-            editingEmployees.value = null;
+        if(editingEmployee.value){
+            await updateEmployee(editingEmployee.value.id, payload);
+            editingEmployee.value = null;
         } else {
-            await createEmployees(payload);
+            await createEmployee(payload);
         }
         await load()
     } catch (err) {
+        console.error(err)
         errorMsg.value = 'Save failed. Check the console for details.';
     }
 }
 
 function handleEdit(e){
-    editingEmployees.value = {...e};
+    editingEmployee.value = {...e, hireDate: e.hireDate ? e.hireDate.substring(0, 10):''};
 }
 
 function handleCancel(){
-    editingEmployees.value = null;
+    editingEmployee.value = null;
 }
 
 async function handleDelete(id){
     if(!confirm('Delete this employee? This cannot be undone'))
-    return;
+        return;
     try{
-        await deleteEmployees(id);
+        await deleteEmployee(id);
         await load();
     } catch {
         errorMsg.value = 'Delete failed.'
@@ -59,6 +61,7 @@ async function handleDelete(id){
 
 onMounted(load)
 </script>
+
 <template>
     <header>
         <h1>Employees Directory</h1>
@@ -69,13 +72,13 @@ onMounted(load)
         <p v-if="loading" class="loading">Loading...</p>
         <p v-if="errorMsg" class="error">{{ errorMsg }}</p>
 
-        <StudentForm
-        :editingEmployees="editingEmployees"
+        <EmployeeForm
+        :editingEmployee="editingEmployee"
         @save="handleSave"
         @cancel="handleCancel"/>
 
-        <StudentList
-        :students="students"
+        <EmployeeList
+        :employees="employees"
         @edit="handleEdit"
         @delete="handleDelete"/>
     </main>

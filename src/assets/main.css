@@ -30,22 +30,22 @@ main {
     gap: 1.5rem;
 }
 
-.student-form,
-.student-table {
+.employee-form,
+.employee-table {
     background: white;
     padding: 1rem 1.2rem;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-.student-form label {
+.employee-form label {
     display: block;
     margin: 0.5rem 0;
     font-size: 0.9rem;
 }
 
-.student-form input,
-.student-form select {
+.employee-form input,
+.employee-form select {
     display: block;
     width: 100%;
     padding: 0.45rem 0.6rem;
@@ -54,12 +54,12 @@ main {
     border-radius: 4px;
 }
 
-.student-form .err {
+.employee-form .err {
     color: #b91c1c;
     font-size: 0.78rem;
 }
 
-.student-form button {
+.employee-form button {
     padding: 0.45rem 1rem;
     border: 0;
     background: #0f766e;
@@ -68,8 +68,8 @@ main {
     cursor: pointer;
 }
 
-.student-form button.danger,
-.student-table .danger {
+.employee-form button.danger,
+.employee-table .danger {
     background: #b91c1c;
 }
 

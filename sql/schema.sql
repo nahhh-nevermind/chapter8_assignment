@@ -16,3 +16,7 @@ CREATE TABLE employees (
     salary  DECIMAL(10,2) NOT NULL,
     active BOOLEAN NOT NULL DEFAULT TRUE
 )ENGINE=InnoDB;
+
+INSERT INTO employees (empId, name, email, department, position, hireDate, salary, active)
+VALUES
+('EMP001', 'Kim Dohoon', 'Dohoon.Kim@yahoo.com', 'HR', 'Secretary', '2025-01-01', 2000.00, 1);

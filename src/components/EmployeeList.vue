@@ -8,7 +8,7 @@ const emit = defineEmits(['edit', 'delete'])
         No employees found.
     </div>
 
-    <table v-else class="student-table">
+    <table v-else class="employee-table">
         <thead>
             <tr>
                 <th>Employee ID</th>
@@ -30,7 +30,7 @@ const emit = defineEmits(['edit', 'delete'])
                 </td>
                 <td>{{ e.department }}</td>
                 <td>{{ e.position }}</td>
-                <td>{{ e.hireDate }}</td>
+                <td>{{ e.hireDate.substring(0, 10) }}</td>
                 <td>RM{{ Number(e.salary).toFixed(2) }}</td>
                 <td>
                     <span :class="e.active ? 'badge ok' : 'badge no'">
