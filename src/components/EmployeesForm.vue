@@ -36,14 +36,14 @@ function validate(){
     if(!emailRegex.test(form.value.email.trim()))
     e.email = 'Please enter a valid email address.'
 
-    if(!form.value.department)
-    e.department = 'Department is required'
-
     if(!form.value.position.trim())
     e.position = 'Position is required'
 
+    const datetime = new Date();
     if(!form.value.hireDate)
     e.hireDate = 'Hire date is required'
+    else if(newDate(form.value.hireDate) > datetime)
+    e.hireDate = 'Hire date cannot be from the future'
 
     const salary = Number(form.value.salary)
     if(Number.isNaN(salary) || salary < 1500 || salary > 50000)
