@@ -2,6 +2,7 @@
 import {ref, onMounted} from 'vue'
 import EmployeeForm from './components/EmployeeForm.vue'
 import EmployeeList from './components/EmployeeList.vue'
+import EmployeeControls from './components/EmployeeControls.vue'
 import{
 getEmployees, createEmployee, updateEmployee, deleteEmployee
 } from './api/employeesApi.js';
@@ -10,21 +11,25 @@ const employees = ref([]);
 const editingEmployee = ref(null);
 const loading = ref(false);
 const errorMsg = ref('');
-const searchQuery = ref('');
-const currentSort = ref('name');
+const apiParams = ref({q: '', sortBy:'name'});
 
 async function load(){
     loading.value = true;
     errorMsg.value = '';
 
     try{
-        const{data} = await getEmployees({ q: searchQuery.value, sortBy:currentSort.value});
+        const{data} = await getEmployees(apiParams.value);
         employees.value = data;
     } catch (err) {
         errorMsg.value = 'Failed to load employees. Is the API running on :3001?';
     } finally {
         loading.value = false;
     }
+}
+
+function handleFilterChange(filter){
+    apiParams.value = filter;
+    load();
 }
 
 async function handleSave(payload){
@@ -74,21 +79,8 @@ onMounted(load)
         <p v-if="loading" class="loading">Loading...</p>
         <p v-if="errorMsg" class="error">{{ errorMsg }}</p>
 
-        <div class="controls-wrapper">
-            <label>
-                Search:
-                <input v-model.trim="searchQuery" @input="load"/>
-            </label>
+        <EmployeeControls @filter-change="handleFilterChange"/>
 
-            <label>
-                Sort By:
-                <select v-model="currentSort" @change="load">
-                    <option value="name">Name</option>
-                    <option value="empId">Employee ID</option>
-                    <option value="hireDate">Hire Date</option>
-                </select>
-            </label>
-        </div>
         <EmployeeForm
         :editingEmployee="editingEmployee"
         @save="handleSave"
